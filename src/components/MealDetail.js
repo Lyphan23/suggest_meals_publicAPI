@@ -10,7 +10,11 @@ function MealDetail({ meal, close }) {
           </div>
 
           <div className="modal-body">
-            <img src={meal.image} className="img-fluid mb-3" alt={meal.name} />
+            <img
+              src={process.env.PUBLIC_URL + meal.image}
+              className="img-fluid mb-3"
+              alt={meal.name}
+            />
 
             <h5>Quốc gia</h5>
             <p>{meal.region}</p>
