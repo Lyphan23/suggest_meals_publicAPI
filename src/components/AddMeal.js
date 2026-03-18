@@ -32,7 +32,7 @@ function AddMeal({ reloadMeals }) {
       image,
     };
 
-    await fetch("http://localhost:3001/meals", {
+    await fetch("https://suggest-meals-website-5.onrender.com/meals", {
       method: "POST",
 
       headers: {
