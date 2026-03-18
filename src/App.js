@@ -17,7 +17,9 @@ function App() {
   const regions = ["", ...new Set(meals.map((meal) => meal.region))];
 
   const loadMeals = async () => {
-    const res = await fetch("http://localhost:3001/meals");
+    const res = await fetch(
+      "https://suggest-meals-publicapi-1.onrender.com/meals",
+    );
     const data = await res.json();
     setMeals(data);
   };
@@ -27,7 +29,7 @@ function App() {
   }, []);
 
   const deleteMeal = async (id) => {
-    await fetch(`http://localhost:3001/meals/${id}`, {
+    await fetch(`https://suggest-meals-publicapi-1.onrender.com/meals/${id}`, {
       method: "DELETE",
     });
     loadMeals();

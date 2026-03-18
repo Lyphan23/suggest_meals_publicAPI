@@ -9,15 +9,7 @@ function AddMeal({ reloadMeals }) {
   const [description, setDescription] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
-  const [image, setImage] = useState("");
-
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      setImage("/images/" + file.name);
-    }
-  };
+  const [image, setImage] = useState(""); // Lưu URL hình ảnh
 
   const addMeal = async (e) => {
     e.preventDefault();
@@ -27,82 +19,112 @@ function AddMeal({ reloadMeals }) {
       region,
       ingredientMain,
       description,
-      ingredients: ingredients.split(","),
+      ingredients: ingredients.split(",").map((item) => item.trim()), // Cắt dấu phẩy và xóa khoảng trắng thừa
       instructions,
-      image,
+      image, // Lưu link URL trực tiếp vào database
     };
 
-    await fetch("http://localhost:3001/meals", {
+    // Sử dụng link Render của bạn
+    await fetch("https://suggest-meals-publicapi-1.onrender.com/meals", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify(newMeal),
     });
 
     reloadMeals();
-
     setShowForm(false);
+
+    // Reset form sau khi lưu
+    setImage("");
+    setName("");
   };
 
   return (
     <div className="mt-4">
       <button className="btn-add-meal" onClick={() => setShowForm(!showForm)}>
-        Thêm món ăn
+        {showForm ? "Đóng Form" : "Thêm món ăn mới"}
       </button>
 
       {showForm && (
         <form
           onSubmit={addMeal}
-          className="border p-3 mt-3 shadow-sm bg-white rounded"
+          className="border p-4 mt-3 shadow-sm bg-white rounded"
         >
-          <h5>Thêm món ăn mới</h5>
+          <h5 className="mb-3 text-primary">Thông tin món ăn mới</h5>
 
           <input
             className="form-control mb-2"
-            placeholder="Tên món ăn"
+            placeholder="Tên món ăn (Ví dụ: Gỏi cuốn)"
+            required
             onChange={(e) => setName(e.target.value)}
           />
 
           <input
             className="form-control mb-2"
-            placeholder="Quốc gia"
+            placeholder="Quốc gia (Ví dụ: Việt Nam)"
+            required
             onChange={(e) => setRegion(e.target.value)}
           />
 
           <input
             className="form-control mb-2"
-            placeholder="Nguyên liệu chính"
+            placeholder="Nguyên liệu chính (Ví dụ: Tôm, thịt heo)"
             onChange={(e) => setIngredientMain(e.target.value)}
           />
 
           <textarea
             className="form-control mb-2"
-            placeholder="Mô tả"
+            placeholder="Mô tả ngắn gọn về món ăn"
             onChange={(e) => setDescription(e.target.value)}
           />
 
           <textarea
             className="form-control mb-2"
-            placeholder="Nguyên liệu (phân tách bằng dấu phẩy)"
+            placeholder="Các nguyên liệu (phân tách bằng dấu phẩy: Rau, bánh tráng, tôm...)"
             onChange={(e) => setIngredients(e.target.value)}
           />
 
           <textarea
             className="form-control mb-2"
-            placeholder="Hướng dẫn cách làm"
+            rows="3"
+            placeholder="Hướng dẫn cách nấu từng bước"
             onChange={(e) => setInstructions(e.target.value)}
           />
 
-          <input
-            type="file"
-            className="form-control mb-3"
-            onChange={handleImage}
-          />
+          {/* Ô nhập link ảnh thay cho chọn file */}
+          <div className="mb-3">
+            <label className="form-label fw-bold">
+              Link địa chỉ hình ảnh (URL):
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Dán link ảnh từ Internet vào đây..."
+              value={image}
+              required
+              onChange={(e) => setImage(e.target.value)}
+            />
+            {image && (
+              <div className="mt-2 text-center">
+                <p className="small text-muted">Xem trước ảnh:</p>
+                <img
+                  src={image}
+                  alt="Preview"
+                  style={{ maxHeight: "150px", borderRadius: "8px" }}
+                  onError={(e) => {
+                    e.target.src =
+                      "https://via.placeholder.com/150?text=Link+anh+loi";
+                  }}
+                />
+              </div>
+            )}
+          </div>
 
-          <button className="btn-save-meal">Lưu món ăn</button>
+          <button type="submit" className="btn-save-meal w-100">
+            🚀 Lưu món ăn vào hệ thống
+          </button>
         </form>
       )}
     </div>
