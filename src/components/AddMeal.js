@@ -9,7 +9,7 @@ function AddMeal({ reloadMeals }) {
   const [description, setDescription] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
-  const [image, setImage] = useState(""); // Lưu URL hình ảnh
+  const [image, setImage] = useState("");
 
   const addMeal = async (e) => {
     e.preventDefault();
@@ -19,12 +19,11 @@ function AddMeal({ reloadMeals }) {
       region,
       ingredientMain,
       description,
-      ingredients: ingredients.split(",").map((item) => item.trim()), // Cắt dấu phẩy và xóa khoảng trắng thừa
+      ingredients: ingredients.split(",").map((item) => item.trim()),
       instructions,
-      image, // Lưu link URL trực tiếp vào database
+      image,
     };
 
-    // Sử dụng link Render của bạn
     await fetch("https://suggest-meals-publicapi-1.onrender.com/meals", {
       method: "POST",
       headers: {
@@ -36,7 +35,6 @@ function AddMeal({ reloadMeals }) {
     reloadMeals();
     setShowForm(false);
 
-    // Reset form sau khi lưu
     setImage("");
     setName("");
   };
@@ -93,7 +91,7 @@ function AddMeal({ reloadMeals }) {
             onChange={(e) => setInstructions(e.target.value)}
           />
 
-          {/* Ô nhập link ảnh thay cho chọn file */}
+          {/* Ô nhập link ảnh */}
           <div className="mb-3">
             <label className="form-label fw-bold">
               Link địa chỉ hình ảnh (URL):

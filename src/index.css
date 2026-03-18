@@ -30,10 +30,10 @@ body {
 }
 .hero-section {
   display: flex;
-  align-items: flex-start; /* đẩy chữ lên trên */
+  align-items: flex-start;
   justify-content: center;
   text-align: center;
-  padding-top: 235px; /* chỉnh độ cao chữ */
+  padding-top: 235px;
   position: relative;
 }
 .hero-section h1 {
@@ -140,9 +140,6 @@ body {
   transform: scale(1.05);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
-.footer {
-  background: linear-gradient(135deg, #1f1f1f, #343a40);
-}
 
 .footer h5 {
   margin-bottom: 15px;
@@ -157,13 +154,6 @@ body {
 .footer li {
   margin-bottom: 8px;
   cursor: pointer;
-}
-
-.footer li:hover {
-  color: #fff;
-}
-.footer {
-  background: linear-gradient(135deg, #1f1f1f, #343a40);
 }
 
 .footer h5 {
@@ -186,16 +176,6 @@ body {
 }
 .footer .row {
   align-items: center;
-}
-.btn-outline-danger {
-  transition: all 0.3s ease;
-}
-
-.btn-outline-danger:hover {
-  background-color: #dc3545;
-  color: white;
-  transform: scale(1.05); /* Phóng to nhẹ khi hover */
-  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
 }
 
 .navbar-brand:hover {
