@@ -251,5 +251,117 @@
       "instructions": "Trộn bột mì, trứng và sữa rồi chiên trên chảo."
     }
   ],
+  "reviews": [
+    {
+      "id": "r1",
+      "mealId": "1",
+      "userEmail": "lyphan232@gmail.com",
+      "rating": 5,
+      "comment": "Nước dùng rất trong và thơm mùi gừng nướng.",
+      "date": "2026-03-20"
+    },
+    {
+      "id": "r2",
+      "mealId": "1",
+      "userEmail": "nguyenvana@gmail.com",
+      "rating": 4,
+      "comment": "Thịt bò tươi nhưng bánh phở hơi ít một chút.",
+      "date": "2026-03-21"
+    },
+    {
+      "id": "r3",
+      "mealId": "1",
+      "userEmail": "tranthib@gmail.com",
+      "rating": 5,
+      "comment": "Món ruột của mình mỗi sáng, nấu theo công thức này rất chuẩn!",
+      "date": "2026-03-22"
+    },
+    {
+      "id": "r4",
+      "mealId": "2",
+      "userEmail": "nguyenvana@gmail.com",
+      "rating": 4,
+      "comment": "Cơm chiên tơi, gà thấm vị.",
+      "date": "2026-03-21"
+    },
+    {
+      "id": "r5",
+      "mealId": "2",
+      "userEmail": "hoangduy@gmail.com",
+      "rating": 3,
+      "comment": "Hơi nhiều dầu mỡ so với khẩu vị của mình.",
+      "date": "2026-03-22"
+    },
+    {
+      "id": "r6",
+      "mealId": "13",
+      "userEmail": "lyphan232@gmail.com",
+      "rating": 5,
+      "comment": "Bánh mì giòn tan, pate béo ngậy rất ngon!",
+      "date": "2026-03-23"
+    },
+    {
+      "id": "r7",
+      "mealId": "13",
+      "userEmail": "tranthib@gmail.com",
+      "rating": 4,
+      "comment": "Đồ chua làm rất vừa vặn, giúp bánh mì không bị ngấy.",
+      "date": "2026-03-23"
+    },
+    {
+      "id": "r8",
+      "mealId": "13",
+      "userEmail": "hoangduy@gmail.com",
+      "rating": 5,
+      "comment": "Đúng chuẩn hương vị đường phố Việt Nam.",
+      "date": "2026-03-23"
+    },
+    {
+      "id": "r9",
+      "mealId": "7",
+      "userEmail": "nguyenvana@gmail.com",
+      "rating": 5,
+      "comment": "Cá hồi tươi, cuộn sushi rất chắc tay.",
+      "date": "2026-03-23"
+    },
+    {
+      "id": "r10",
+      "mealId": "20",
+      "userEmail": "hoangduy@gmail.com",
+      "rating": 5,
+      "comment": "Bánh mềm mịn, ăn cùng mật ong rất tuyệt.",
+      "date": "2026-03-23"
+    }
+  ],
+  "users": [
+    {
+      "id": "u1",
+      "name": "Ly Phan",
+      "email": "lyphan232@gmail.com",
+      "password": "Lyphan232",
+      "role": "admin"
+    },
+    {
+      "id": "u2",
+      "name": "Nguyễn Văn A",
+      "email": "nguyenvana@gmail.com",
+      "password": "user123",
+      "role": "user"
+    },
+    {
+      "id": "u3",
+      "name": "Trần Thị B",
+      "email": "tranthib@gmail.com",
+      "password": "user123",
+      "role": "user"
+    },
+    {
+      "id": "u4",
+      "name": "Hoàng Duy",
+      "email": "hoangduy@gmail.com",
+      "password": "user123",
+      "role": "user"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

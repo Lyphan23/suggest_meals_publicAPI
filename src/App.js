@@ -199,40 +199,6 @@ function App() {
       >
         <div className="container d-flex justify-content-between align-items-center">
           {/* LOGO */}
-          <style>
-            {`
-  @import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
-
-  .neon-chef {
-    font-family: 'Monoton', cursive; 
-    font-size: 3.5rem;
-    color: #fff;
-    text-shadow: 
-      0 0 7px #fff,
-      0 0 10px #fff,
-      0 0 21px #fff,
-      0 0 42px #ffc107,
-      0 0 82px #ffc107,
-      0 0 92px #ffc107,
-      0 0 102px #ffc107;
-    animation: neon-flicker 1.5s infinite alternate;
-  }
-  @keyframes neon-flicker {
-    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-      text-shadow: 
-        0 0 7px #fff,
-        0 0 10px #fff,
-        0 0 21px #fff,
-        0 0 42px #ffc107,
-        0 0 82px #ffc107,
-        0 0 92px #ffc107;
-    }
-    20%, 22%, 24%, 55% {
-      text-shadow: none;
-    }
-  }
-`}
-          </style>
 
           <span className="navbar-brand neon-chef">✨ ChefLee</span>
           {/* USER & LOGOUT */}
