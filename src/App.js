@@ -3,23 +3,17 @@ import MealCard from "./components/MealCard";
 import AddMeal from "./components/AddMeal";
 import SearchFilter from "./components/SearchFilter";
 import MealDetail from "./components/MealDetail";
+import Login from "./components/LogIn";
 
 function App() {
   const [meals, setMeals] = useState([]);
   const [search, setSearch] = useState("");
   const [region, setRegion] = useState("");
   const [selectedMeal, setSelectedMeal] = useState(null);
-
+  const [refreshReviews, setRefreshReviews] = useState(0);
   // ---LOGIN STATES ---
   const [user, setUser] = useState(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isRegister, setIsRegister] = useState(false);
-
-  const [error, setError] = useState("");
-
-  const adminEmail = "lyphan232@gmail.com";
-  const adminPassword = "Lyphan232";
+  const adminEmail = "lyphan232@gmail.com"; // Giữ lại adminEmail để kiểm tra quyền
   // ----------------------------------
 
   // pagination
@@ -30,7 +24,7 @@ function App() {
 
   const loadMeals = async () => {
     const res = await fetch(
-      "https://suggest-meals-publicapi-1.onrender.com/meals",
+      "https://suggest-meals-publicapi-2.onrender.com/meals",
     );
     const data = await res.json();
     setMeals(data);
@@ -44,50 +38,10 @@ function App() {
     loadMeals();
   }, []);
 
-  // --- AUTH LOGIC ---
-  const handleAuth = (e) => {
-    e.preventDefault();
-    setError("");
-
-    // Lấy danh sách user từ máy
-    const storageUsers = JSON.parse(localStorage.getItem("accounts") || "[]");
-
-    if (isRegister) {
-      // Không cho phép đăng ký email trùng với Admin cố định
-      if (email === adminEmail || storageUsers.find((u) => u.email === email)) {
-        return setError("Email này đã tồn tại hoặc được bảo vệ!");
-      }
-      storageUsers.push({ email, password });
-      localStorage.setItem("accounts", JSON.stringify(storageUsers));
-
-      // Chuyển sang đăng nhập và hiện thông báo thành công màu xanh (tùy chọn) hoặc đỏ nhẹ
-      setIsRegister(false);
-      setError("Đăng ký thành công! Hãy đăng nhập.");
-    } else {
-      // KIỂM TRA ĐĂNG NHẬP
-      if (email === adminEmail && password === adminPassword) {
-        const adminUser = {
-          email: adminEmail,
-          password: adminPassword,
-        };
-        setUser(adminUser);
-        localStorage.setItem("user", JSON.stringify(adminUser));
-      } else {
-        // Nếu không phải admin thì mới tìm trong danh sách đăng ký tự do
-        const foundUser = storageUsers.find(
-          (u) => u.email === email && u.password === password,
-        );
-        if (foundUser) {
-          setUser(foundUser);
-          localStorage.setItem("user", JSON.stringify(foundUser));
-        } else {
-          // THAY ALERT BẰNG CẢNH BÁO CHỮ ĐỎ
-          setError(
-            "Tài khoản không tồn tại hoặc sai mật khẩu. Hãy tạo tài khoản mới!",
-          );
-        }
-      }
-    }
+  // --- XỬ LÝ KHI ĐĂNG NHẬP THÀNH CÔNG ---
+  const handleLoginSuccess = (userData) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
@@ -123,69 +77,11 @@ function App() {
   // reset page when search/filter change
   useEffect(() => {
     setCurrentPage(1);
-    setError("");
-  }, [search, region, isRegister]);
+  }, [search, region]);
 
-  // --- LOGIC HIỂN THỊ MÀN HÌNH ĐĂNG NHẬP ---
+  // --- LOGIC HIỂN THỊ MÀN HÌNH ĐĂNG NHẬP (GỌI COMPONENT LOGIN) ---
   if (!user) {
-    return (
-      <div
-        className="login-page-container"
-        style={{
-          backgroundImage: `url(${process.env.PUBLIC_URL + "/images/login-bg.jpg"})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100vh",
-        }}
-      >
-        <div
-          className="card p-4 shadow"
-          style={{ width: "350px", borderRadius: "15px" }}
-        >
-          <h3 className="text-center mb-4">
-            {isRegister ? "Đăng ký" : "Đăng nhập"}
-          </h3>
-          <form onSubmit={handleAuth}>
-            <input
-              type="email"
-              placeholder="Email"
-              className="form-control mb-2"
-              required
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setError("");
-              }}
-            />
-            <input
-              type="password"
-              placeholder="Mật khẩu"
-              className="form-control mb-3"
-              required
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setError("");
-              }}
-            />
-
-            {error && (
-              <div className="text-danger small mb-3 text-center fw-bold">
-                {error}
-              </div>
-            )}
-
-            <button className="btn btn-primary w-100 mb-2">
-              {isRegister ? "Tạo tài khoản" : "Đăng nhập"}
-            </button>
-          </form>
-          <button
-            className="btn btn-link btn-sm w-100 text-decoration-none"
-            onClick={() => setIsRegister(!isRegister)}
-          >
-            {isRegister ? "Quay lại Đăng nhập" : "Chưa có tài khoản? Đăng ký"}
-          </button>
-        </div>
-      </div>
-    );
+    return <Login onLoginSuccess={handleLoginSuccess} />;
   }
 
   return (
@@ -282,6 +178,7 @@ function App() {
               deleteMeal={deleteMeal}
               viewDetail={setSelectedMeal}
               isAdmin={user.email === adminEmail}
+              refreshReviews={refreshReviews}
             />
           ))}
         </div>
@@ -335,7 +232,12 @@ function App() {
       </div>
 
       {selectedMeal && (
-        <MealDetail meal={selectedMeal} close={() => setSelectedMeal(null)} />
+        <MealDetail
+          meal={selectedMeal}
+          close={() => setSelectedMeal(null)}
+          currentUser={user}
+          onReviewAdded={() => setRefreshReviews((prev) => prev + 1)}
+        />
       )}
 
       {/* FOOTER */}

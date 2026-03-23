@@ -24,7 +24,7 @@ function AddMeal({ reloadMeals }) {
       image,
     };
 
-    await fetch("https://suggest-meals-publicapi-1.onrender.com/meals", {
+    await fetch("https://suggest-meals-publicapi-2.onrender.com/meals", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
