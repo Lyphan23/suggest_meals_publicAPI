@@ -51,10 +51,22 @@ function App() {
   // --------------------------------
 
   const deleteMeal = async (id) => {
-    await fetch(`https://suggest-meals-publicapi-1.onrender.com/meals/${id}`, {
-      method: "DELETE",
-    });
-    loadMeals();
+    // Thêm xác nhận để tránh bấm nhầm
+    if (window.confirm("Bạn có chắc chắn muốn xóa món ăn này không?")) {
+      try {
+        await fetch(
+          `https://suggest-meals-publicapi-2.onrender.com/meals/${id}`,
+          {
+            method: "DELETE",
+          },
+        );
+
+        loadMeals();
+      } catch (error) {
+        console.error("Lỗi khi xóa món ăn:", error);
+        alert("Có lỗi xảy ra khi xóa món ăn!");
+      }
+    }
   };
 
   // filter
