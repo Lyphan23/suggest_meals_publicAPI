@@ -226,7 +226,7 @@ body {
 @import url("https://fonts.googleapis.com/css2?family=Monoton&display=swap");
 .neon-chef {
   font-family: "Monoton", cursive;
-  font-size: 3.5rem;
+  font-size: 50px !important;
   color: #fff;
   text-shadow:
     0 0 7px #fff,
