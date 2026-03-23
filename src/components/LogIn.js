@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 function Login({ onLoginSuccess }) {
+  const [name, setName] = useState(""); // Thêm state để lưu tên
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isRegister, setIsRegister] = useState(false);
@@ -11,7 +12,6 @@ function Login({ onLoginSuccess }) {
     setError("");
 
     try {
-      // Gọi đến mảng users trong database của bạn
       const res = await fetch(
         "https://suggest-meals-publicapi-2.onrender.com/users",
       );
@@ -24,10 +24,10 @@ function Login({ onLoginSuccess }) {
         }
 
         const newUser = {
-          name: email.split("@")[0], // Tạm lấy tên từ email
+          name: name.trim() !== "" ? name : email.split("@")[0], // Dùng tên vừa nhập
           email,
           password,
-          role: "user", // Mặc định là member
+          role: "user",
         };
 
         const saveRes = await fetch(
@@ -42,20 +42,17 @@ function Login({ onLoginSuccess }) {
         if (saveRes.ok) {
           setIsRegister(false);
           setError("Đăng ký thành công! Mời bạn đăng nhập.");
+          setName(""); // Xóa trắng ô tên sau khi đăng ký xong
         }
       } else {
         // --- LOGIC ĐĂNG NHẬP ---
-        // 1. Kiểm tra xem email đã tồn tại chưa
         const existingUser = users.find((u) => u.email === email);
 
         if (!existingUser) {
-          // Nếu không tìm thấy email trong database
           setError("Tài khoản chưa tồn tại, vui lòng đăng ký!");
         } else if (existingUser.password !== password) {
-          // Nếu có email nhưng mật khẩu không khớp
           setError("Sai mật khẩu!");
         } else {
-          // Nếu đúng cả email và mật khẩu
           onLoginSuccess(existingUser);
         }
       }
@@ -82,14 +79,30 @@ function Login({ onLoginSuccess }) {
           {isRegister ? "Đăng ký" : "Đăng nhập"}
         </h3>
         <form onSubmit={handleAuth}>
+          {/* CHỈ HIỆN Ô TÊN KHI Ở CHẾ ĐỘ ĐĂNG KÝ */}
+          {isRegister && (
+            <input
+              type="text"
+              placeholder="Tên hiển thị (VD: Ly Phan)"
+              className="form-control mb-2"
+              required
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setError("");
+              }}
+            />
+          )}
+
           <input
             type="email"
             placeholder="Email"
             className="form-control mb-2"
             required
+            value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-              setError(""); // Xóa lỗi khi người dùng gõ lại
+              setError("");
             }}
           />
           <input
@@ -97,9 +110,10 @@ function Login({ onLoginSuccess }) {
             placeholder="Mật khẩu"
             className="form-control mb-3"
             required
+            value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              setError(""); // Xóa lỗi khi người dùng gõ lại
+              setError("");
             }}
           />
           {error && (
@@ -117,7 +131,7 @@ function Login({ onLoginSuccess }) {
           className="btn btn-link btn-sm w-100 text-decoration-none"
           onClick={() => {
             setIsRegister(!isRegister);
-            setError(""); // Xóa lỗi khi chuyển đổi giữa Đăng nhập/Đăng ký
+            setError("");
           }}
         >
           {isRegister

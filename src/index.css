@@ -207,6 +207,15 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
+.btn-review {
+  background: linear-gradient(45deg, #36d1dc, #5b86e5);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: 0.3s;
+}
 
 .login-page-container .card {
   z-index: 2;

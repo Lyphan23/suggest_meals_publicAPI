@@ -74,7 +74,7 @@ function AddReview({ mealId, currentUser, onReviewAdded }) {
         </div>
         <button
           type="submit"
-          className="btn btn-primary px-4"
+          className="btn btn-review px-4"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Đang gửi..." : "Gửi đánh giá"}

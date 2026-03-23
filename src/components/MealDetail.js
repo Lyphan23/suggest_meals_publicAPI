@@ -21,7 +21,7 @@ function MealDetail({ meal, close, currentUser, onReviewAdded }) {
     const user = users.find((u) => u.email === email);
     return (
       user || {
-        name: email.split("@")[0],
+        name: user?.name || email.split("@")[0],
         avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
       }
     );
